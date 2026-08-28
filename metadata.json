@@ -1,0 +1,6 @@
+{
+  "name": "Engineering Projects Accounting Platform",
+  "description": "Comprehensive accounting and financial management system for engineering syndicate projects across Hasakah, Qamishlo, and Derik branches, featuring General Studies, Supervision Contracts, Bayani, Safety audits, and server-side Gemini AI intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
