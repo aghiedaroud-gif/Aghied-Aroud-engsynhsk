@@ -1,8 +1,11 @@
 import React from 'react';
 import { BranchCode, UserRole } from '../types';
 import { BRANCH_CONFIG } from '../data/branchConfig';
-import { Building2, Shield, RefreshCw, DollarSign, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { Sparkles, Globe, Sun, Moon } from 'lucide-react';
 import { BranchLogo } from './BranchLogo';
+import { useLanguage } from '../context/LanguageContext';
+import { Language } from '../utils/translations';
+import { useTheme } from '../context/ThemeContext';
 
 interface HeaderProps {
   currentBranch: BranchCode;
@@ -14,144 +17,120 @@ interface HeaderProps {
   onOpenWorkspaceTools: () => void;
   onOpenAIAssistant: () => void;
   onOpenBranchLogos?: () => void;
+  isOnline?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   currentBranch,
-  onBranchChange,
-  currentRole,
-  onRoleChange,
-  exchangeRate,
-  onExchangeRateChange,
-  onOpenWorkspaceTools,
   onOpenAIAssistant,
   onOpenBranchLogos
 }) => {
   const branchInfo = BRANCH_CONFIG[currentBranch];
+  const { language, setLanguage } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
 
-  const roleLabels: Record<UserRole, { ar: string; badge: string }> = {
-    accountant: { ar: 'محاسب الوحدة (Accountant)', badge: 'LVL_1_ACC' },
-    archive_officer: { ar: 'مسؤول الأرشيف (Archive Officer)', badge: 'LVL_2_ARC' },
-    branch_auditor: { ar: 'مدقق الفرع (Branch Auditor)', badge: 'LVL_3_AUD' },
-    hub_auditor: { ar: 'مدقق مركزي عام (Hub Auditor)', badge: 'LVL_7_CHIEF' }
-  };
+  const isLight = theme === 'light';
 
   return (
-    <header className="h-auto md:h-16 bg-[#0F0F0F] text-[#F0F0F0] border-b border-[#222] sticky top-0 z-40 px-4 sm:px-6 lg:px-8 py-2 md:py-0 flex items-center shadow-md">
-      <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <header className={`border-b sticky top-0 z-40 px-4 sm:px-6 lg:px-8 py-3.5 transition-colors duration-200 liquid-glass ${
+      isLight ? 'text-slate-900 border-slate-200/80 shadow-sm' : 'text-[#F0F0F0] border-[#222]/80 shadow-md'
+    }`}>
+      <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         
-        {/* Right/Brand side (RTL Start) with official circular seal */}
-        <div className="flex items-center gap-3.5">
+        {/* Brand Side with Larger Branch Logo */}
+        <div className="flex items-center gap-4">
           <button
             onClick={onOpenBranchLogos}
-            className="p-1 rounded bg-white hover:ring-2 hover:ring-[#00FFD1] transition flex items-center justify-center shrink-0 shadow"
+            className={`p-1.5 rounded-xl transition flex items-center justify-center shrink-0 shadow cursor-pointer ${
+              isLight ? 'bg-slate-100 hover:ring-2 hover:ring-emerald-500' : 'bg-white hover:ring-2 hover:ring-[#00FFD1]'
+            }`}
             title="انقر لاستعراض الشعارات والأختام الرسمية للوحدات الثلاث (S.E.P.H)"
           >
-            <BranchLogo branch={currentBranch} size="sm" />
+            <BranchLogo branch={currentBranch} size="lg" />
           </button>
           <div>
-            <div className="flex items-center gap-2.5">
-              <span className="text-[10px] font-mono tracking-widest text-[#00FFD1] uppercase">
-                S.E.P.H // SYN-ACCT 2026
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className={`text-[10px] font-mono tracking-widest uppercase font-bold px-2 py-0.5 rounded ${
+                isLight ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-[#1A1A1A] text-[#00FFD1] border border-[#333]'
+              }`}>
+                S.E.P.H // 2026
               </span>
-              <span className="h-3 w-px bg-[#333]"></span>
-              <h1 className="text-sm font-bold tracking-tight text-white">
+              <h1 className={`text-base sm:text-lg font-bold tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
                 {branchInfo.header_title}
               </h1>
-              <span className="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-[#1A1A1A] text-[#00FFD1] border border-[#333]">
+              <span className={`px-2 py-0.5 text-xs font-mono font-bold rounded ${
+                isLight ? 'bg-slate-100 text-slate-800 border border-slate-200' : 'bg-[#1A1A1A] text-[#00FFD1] border border-[#333]'
+              }`}>
                 {branchInfo.code}
               </span>
             </div>
-            <p className="text-[11px] text-[#888] font-medium leading-none mt-0.5">
-              {branchInfo.sub_kurdish}
+            <p className={`text-xs font-medium mt-0.5 ${isLight ? 'text-slate-600' : 'text-[#888]'}`}>
+              {branchInfo.sub_kurdish} • نظام المحاسبة والمالية الهندسية
             </p>
           </div>
         </div>
 
-        {/* System telemetry & controls (RTL End) */}
-        <div className="flex flex-wrap items-center gap-2.5 justify-start md:justify-end text-xs">
+        {/* Clean Header Action Controls (Language, Theme & AI Auditor) */}
+        <div className="flex items-center gap-3">
           
-          {/* Branch Seals Inspector Button */}
-          {onOpenBranchLogos && (
-            <button
-              onClick={onOpenBranchLogos}
-              className="flex items-center gap-1.5 bg-[#151515] hover:bg-[#202020] text-[#00FFD1] border border-[#333] px-2.5 py-1 rounded text-xs font-mono transition"
-              title="معاينة أختام وشعارات الوحدات الثلاث (Hasakah - Qamishlo - Derik)"
-            >
-              <ImageIcon className="w-3.5 h-3.5" />
-              <span>BRANCH_SEALS</span>
-            </button>
-          )}
-
-          {/* Exchange Rate Input */}
-          <div className="flex items-center bg-[#151515] border border-[#222] rounded px-2.5 py-1 text-xs text-[#AAA]">
-            <DollarSign className="w-3.5 h-3.5 text-[#00FFD1] ml-1" />
-            <span className="ml-1 text-[10px] font-mono uppercase text-[#666]">FX_RATE:</span>
-            <input
-              type="number"
-              value={exchangeRate}
-              onChange={(e) => onExchangeRateChange(Number(e.target.value) || 14000)}
-              className="w-20 bg-[#0A0A0A] text-[#00FFD1] font-mono font-bold border border-[#333] rounded px-1.5 py-0.5 text-center focus:outline-none focus:border-[#00FFD1]"
-            />
-            <span className="mr-1 text-[10px] font-mono text-[#666]">SYP</span>
-          </div>
-
-          {/* Branch Selector */}
-          <div className="flex items-center bg-[#151515] border border-[#222] rounded px-2.5 py-1 text-xs">
-            <Building2 className="w-3.5 h-3.5 text-[#00FFD1] ml-1.5" />
+          {/* Trilingual Language Selector (Ar / Ku / En) */}
+          <div className={`flex items-center rounded-lg border px-3 py-1.5 text-xs shadow-sm ${
+            isLight ? 'bg-slate-50 border-slate-300 text-slate-800' : 'bg-[#151515] border-[#222] text-white'
+          }`}>
+            <Globe className="w-4 h-4 text-emerald-600 ml-2" />
             <select
-              id="branch-selector-dropdown"
-              value={currentBranch}
-              onChange={(e) => onBranchChange(e.target.value as BranchCode)}
-              className="bg-transparent text-white font-mono font-semibold focus:outline-none cursor-pointer text-xs"
+              id="trilingual-language-selector"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as Language)}
+              className="bg-transparent font-semibold focus:outline-none cursor-pointer text-xs"
             >
-              <option value="HAS" className="bg-[#151515] text-white">وحدة الحسكة (HAS)</option>
-              <option value="QAM" className="bg-[#151515] text-white">وحدة القامشلي (QAM)</option>
-              <option value="DER" className="bg-[#151515] text-white">وحدة ديريك (DER)</option>
+              <option value="ar" className={isLight ? 'bg-white text-slate-900' : 'bg-[#151515] text-white'}>العربية (Arabic)</option>
+              <option value="ku" className={isLight ? 'bg-white text-slate-900' : 'bg-[#151515] text-white'}>کورمانجی (Kurmangi - LTR)</option>
+              <option value="en" className={isLight ? 'bg-white text-slate-900' : 'bg-[#151515] text-white'}>English (إنجليزي)</option>
             </select>
           </div>
 
-          {/* SoD Role Selector */}
-          <div className="flex items-center bg-[#151515] border border-[#222] rounded px-2.5 py-1 text-xs">
-            <Shield className="w-3.5 h-3.5 text-[#FF4D00] ml-1.5" />
-            <select
-              id="sod-role-selector-dropdown"
-              value={currentRole}
-              onChange={(e) => onRoleChange(e.target.value as UserRole)}
-              className="bg-transparent text-white font-semibold focus:outline-none cursor-pointer text-xs"
-            >
-              <option value="accountant" className="bg-[#151515] text-white">محاسب الوحدة (Accountant)</option>
-              <option value="archive_officer" className="bg-[#151515] text-white">مسؤول الأرشيف (Archive Officer)</option>
-              <option value="branch_auditor" className="bg-[#151515] text-white">مدقق الفرع (Branch Auditor)</option>
-              <option value="hub_auditor" className="bg-[#151515] text-white">مدقق مركزي عام (Hub Auditor)</option>
-            </select>
-          </div>
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium text-xs transition cursor-pointer shadow-sm ${
+              isLight 
+                ? 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300' 
+                : 'bg-[#181818] hover:bg-[#222] text-[#00FFD1] border-[#333]'
+            }`}
+            title="تبديل مظهر العرض (فاتح / داكن)"
+          >
+            {isLight ? (
+              <>
+                <Moon className="w-4 h-4 text-indigo-600" />
+                <span className="hidden sm:inline">داكن</span>
+              </>
+            ) : (
+              <>
+                <Sun className="w-4 h-4 text-amber-400" />
+                <span className="hidden sm:inline">فاتح</span>
+              </>
+            )}
+          </button>
 
           {/* AI Assistant High-Contrast Button */}
           <button
             id="header-ai-auditor-btn"
             onClick={onOpenAIAssistant}
-            className="flex items-center gap-1.5 bg-[#00FFD1] text-black text-xs font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded hover:brightness-90 transition shadow"
+            className={`flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider px-3.5 py-2 rounded-lg transition shadow-md cursor-pointer ${
+              isLight
+                ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                : 'bg-[#00FFD1] text-black hover:brightness-90'
+            }`}
             title="المدقق الجنائي الذكي Gemini AI"
           >
-            <Sparkles className="w-3.5 h-3.5 fill-black" />
+            <Sparkles className="w-4 h-4" />
             <span>AI AUDIT // GEMINI</span>
           </button>
 
-          {/* Google Workspace & Sheets Sync */}
-          <button
-            id="header-workspace-sync-btn"
-            onClick={onOpenWorkspaceTools}
-            className="flex items-center gap-1 bg-[#1A1A1A] hover:bg-[#252525] text-white text-xs font-mono font-semibold px-2.5 py-1.5 rounded border border-[#333] transition"
-            title="أدوات Google Workspace والمزامنة مع Google Sheets"
-          >
-            <RefreshCw className="w-3.5 h-3.5 text-[#00FFD1]" />
-            <span>SYNC_SHEETS</span>
-          </button>
-
         </div>
+
       </div>
     </header>
   );
 };
-

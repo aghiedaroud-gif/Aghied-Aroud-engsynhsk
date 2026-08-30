@@ -56,11 +56,16 @@
   background-color: #0A0A0A;
 }
 
-/* Official A4 Document Print Formatting */
+/* Official A4 Document & Tabular Financial Print Formatting */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm 15mm;
+    margin: 8mm 10mm;
+  }
+
+  @page landscape-ledger {
+    size: A4 landscape;
+    margin: 8mm 10mm;
   }
 
   html, body {
@@ -68,20 +73,23 @@
     color: #000000 !important;
     padding: 0 !important;
     margin: 0 !important;
-    font-size: 11pt !important;
+    font-size: 10pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  /* Hide app navigation, sidebars, buttons, headers */
+  /* Hide app navigation, sidebars, buttons, headers, and modals except printables */
   header, nav, aside, footer,
   .print\:hidden,
   .no-print,
-  button,
-  [role="dialog"] > div > div:first-child {
+  button:not(.allow-print),
+  [role="dialog"]:not(.printable-modal) > div > div:first-child {
     display: none !important;
   }
 
   /* Make printable document take full page cleanly */
-  .printable-document {
+  .printable-document,
+  .printable-ledger-report {
     position: static !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -90,10 +98,91 @@
     box-shadow: none !important;
     border: none !important;
     background: #FFFFFF !important;
+    color: #000000 !important;
     overflow: visible !important;
+    display: block !important;
   }
 
-  /* Prevent page breaks inside tables and signatures */
+  /* Target and hide redundant invoice copies in print view, ensuring only primary invoice container renders */
+  .printable-document ~ .printable-document,
+  .redundant-invoice-copy {
+    display: none !important;
+  }
+
+  /* Print-Specific CSS Utility for Tabular Financial Data */
+  .print-tabular-data {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 8.5pt !important;
+    line-height: 1.3 !important;
+    color: #000000 !important;
+    background: #FFFFFF !important;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .print-tabular-data thead {
+    display: table-header-group !important;
+  }
+
+  .print-tabular-data tfoot {
+    display: table-footer-group !important;
+  }
+
+  .print-tabular-data th {
+    background-color: #F1F5F9 !important;
+    color: #0F172A !important;
+    border: 1px solid #CBD5E1 !important;
+    padding: 5px 6px !important;
+    font-weight: 700 !important;
+    text-align: right !important;
+    font-size: 8pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-tabular-data td {
+    border: 1px solid #E2E8F0 !important;
+    padding: 4px 6px !important;
+    color: #1E293B !important;
+    vertical-align: middle !important;
+  }
+
+  .print-tabular-data tr:nth-child(even) td {
+    background-color: #F8FAFC !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-tabular-data tr.summary-row td {
+    background-color: #E2E8F0 !important;
+    font-weight: 800 !important;
+    border-top: 2px solid #64748B !important;
+    border-bottom: 2px solid #64748B !important;
+    color: #0F172A !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-tabular-data .col-num {
+    font-family: 'JetBrains Mono', 'Space Grotesk', monospace !important;
+    font-variant-numeric: tabular-nums !important;
+    text-align: left !important;
+    direction: ltr !important;
+    white-space: nowrap !important;
+  }
+
+  .print-tabular-data .col-debit {
+    color: #047857 !important;
+    font-weight: 700 !important;
+  }
+
+  .print-tabular-data .col-credit {
+    color: #B91C1C !important;
+    font-weight: 700 !important;
+  }
+
+  /* Prevent page breaks inside rows and signature blocks */
   table, tr, td, th {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
@@ -103,4 +192,41 @@
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
+
+  .ledger-page-break {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  .doc-page-break {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
 }
+
+/* Liquid Glass (Aesthetic Translucent Glassmorphism with Iridescent Highlights & Backdrop Blur) */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.dark .liquid-glass,
+.liquid-glass-dark {
+  background: rgba(20, 20, 20, 0.65);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.liquid-glass-cyan {
+  background: rgba(0, 255, 209, 0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(0, 255, 209, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 255, 209, 0.15), inset 0 1px 1px 0 rgba(0, 255, 209, 0.4);
+}
+

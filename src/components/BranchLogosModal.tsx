@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, ShieldCheck, Check } from 'lucide-react';
 import { BranchCode } from '../types';
 import { BranchLogo } from './BranchLogo';
@@ -17,13 +17,34 @@ export const BranchLogosModal: React.FC<BranchLogosModalProps> = ({
   currentBranch,
   onSelectBranch
 }) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const branches: BranchCode[] = ['HAS', 'QAM', 'DER'];
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-[#151515] w-full max-w-4xl rounded border border-[#333] shadow-2xl overflow-hidden flex flex-col">
+    <div 
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div className="bg-[#151515] w-full max-w-4xl rounded-xl border border-[#333] shadow-2xl overflow-hidden flex flex-col">
         
         {/* Header */}
         <div className="bg-[#0A0A0A] px-6 py-4 border-b border-[#222] flex items-center justify-between">
@@ -42,9 +63,11 @@ export const BranchLogosModal: React.FC<BranchLogosModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-[#888] hover:text-white p-1 rounded transition"
+            className="text-[#888] hover:text-white bg-[#222] hover:bg-[#333] p-2 rounded-lg transition cursor-pointer flex items-center gap-1.5 text-xs font-mono"
+            title="إغلاق (Esc)"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
+            <span>إغلاق</span>
           </button>
         </div>
 
@@ -57,7 +80,7 @@ export const BranchLogosModal: React.FC<BranchLogosModalProps> = ({
             return (
               <div
                 key={b}
-                className={`bg-[#0A0A0A] rounded border p-5 flex flex-col items-center text-center space-y-4 transition ${
+                className={`bg-[#0A0A0A] rounded-xl border p-5 flex flex-col items-center text-center space-y-4 transition ${
                   isSelected
                     ? 'border-[#00FFD1] ring-1 ring-[#00FFD1]/50'
                     : 'border-[#222] hover:border-[#444]'
@@ -94,7 +117,7 @@ export const BranchLogosModal: React.FC<BranchLogosModalProps> = ({
                   onClick={() => {
                     onSelectBranch(b);
                   }}
-                  className={`w-full py-2 rounded font-mono text-xs font-bold transition flex items-center justify-center gap-1.5 ${
+                  className={`w-full py-2.5 rounded-lg font-mono text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${
                     isSelected
                       ? 'bg-[#00FFD1] text-black cursor-default'
                       : 'bg-[#151515] hover:bg-[#222] text-[#DDD] border border-[#333]'
@@ -108,9 +131,14 @@ export const BranchLogosModal: React.FC<BranchLogosModalProps> = ({
         </div>
 
         {/* Footer Notes */}
-        <div className="bg-[#0A0A0A] px-6 py-3 border-t border-[#222] flex items-center justify-between text-[11px] font-mono text-[#777]">
+        <div className="bg-[#0A0A0A] px-6 py-3.5 border-t border-[#222] flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] font-mono text-[#777]">
           <span>S.E.P.H: Sendîkaya Endezyaran li parêzgeha Hesekê (نقابة المهندسين في محافظة الحسكة)</span>
-          <span className="text-[#00FFD1]">VALID_ACCREDITATION_2026</span>
+          <button
+            onClick={onClose}
+            className="px-4 py-1.5 bg-[#222] hover:bg-[#333] text-white rounded-lg transition text-xs font-mono cursor-pointer"
+          >
+            إغلاق النافذة (Close)
+          </button>
         </div>
 
       </div>

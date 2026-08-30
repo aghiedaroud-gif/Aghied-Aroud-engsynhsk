@@ -17,7 +17,6 @@ export const BranchLogo: React.FC<BranchLogoProps> = ({
   const rawId = useId();
   const uniqueId = `logo_${branch}_${rawId.replace(/[^a-zA-Z0-9]/g, '_')}`;
 
-  // Dimensions mapping
   const dimensionMap = {
     xs: 'w-6 h-6',
     sm: 'w-8 h-8',
@@ -57,60 +56,66 @@ export const BranchLogo: React.FC<BranchLogoProps> = ({
     <div className={`inline-flex items-center gap-2 ${className}`}>
       <div className={`relative shrink-0 ${dimensionMap[size]} select-none`}>
         <svg
-          viewBox="0 0 400 400"
-          className="w-full h-full drop-shadow-sm"
+          viewBox="0 0 500 500"
+          className="w-full h-full"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            {/* Upper text path for Kurdish top arc (clockwise) */}
+            {/* Top Kurdish Arc */}
             <path
               id={`ku-top-arc-${uniqueId}`}
-              d="M 55,200 A 145,145 0 0,1 345,200"
+              d="M 60,250 A 190,190 0 0,1 440,250"
               fill="none"
             />
-            {/* Upper text path for Arabic top arc */}
+            {/* Top Arabic Arc */}
             <path
               id={`ar-top-arc-${uniqueId}`}
-              d="M 68,200 A 132,132 0 0,1 332,200"
+              d="M 90,250 A 160,160 0 0,1 410,250"
               fill="none"
             />
-            {/* Gradient for subtle seal depth */}
-            <radialGradient id={`seal-bg-${uniqueId}`} cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#FFFFFF" />
-              <stop offset="90%" stopColor="#FAFAFA" />
-              <stop offset="100%" stopColor="#F0F0F0" />
-            </radialGradient>
+            {/* Bottom Kurdish Arc (Right to Left along bottom rim for upright text) */}
+            <path
+              id={`ku-bot-arc-${uniqueId}`}
+              d="M 415,250 A 165,165 0 0,1 85,250"
+              fill="none"
+            />
+            {/* Bottom Arabic Arc */}
+            <path
+              id={`ar-bot-arc-${uniqueId}`}
+              d="M 385,250 A 135,135 0 0,1 115,250"
+              fill="none"
+            />
           </defs>
 
-          {/* Background White Circle */}
-          <circle cx="200" cy="200" r="195" fill={`url(#seal-bg-${uniqueId})`} />
+          {/* Clean White Background Circle */}
+          <circle cx="250" cy="250" r="246" fill="#FFFFFF" />
 
-          {/* Outer Bold Red Border */}
+          {/* Outer Red Border */}
           <circle
-            cx="200"
-            cy="200"
-            r="190"
+            cx="250"
+            cy="250"
+            r="240"
             fill="none"
-            stroke="#D32F2F"
+            stroke="#E53935"
             strokeWidth="8"
           />
 
-          {/* Inner Thin Red Border */}
+          {/* Inner Red Border */}
           <circle
-            cx="200"
-            cy="200"
-            r="174"
+            cx="250"
+            cy="250"
+            r="218"
             fill="none"
-            stroke="#D32F2F"
-            strokeWidth="3.5"
+            stroke="#E53935"
+            strokeWidth="2.5"
           />
 
-          {/* Upper Outer Kurdish Arc Text */}
+          {/* Top Kurdish Text */}
           <text
             fontSize="18"
             fontWeight="bold"
             fill="#111827"
-            fontFamily="system-ui, -apple-system, sans-serif"
+            fontFamily="Arial, sans-serif"
           >
             <textPath
               href={`#ku-top-arc-${uniqueId}`}
@@ -121,12 +126,12 @@ export const BranchLogo: React.FC<BranchLogoProps> = ({
             </textPath>
           </text>
 
-          {/* Upper Inner Arabic Arc Text */}
+          {/* Top Arabic Text */}
           <text
             fontSize="21"
             fontWeight="bold"
             fill="#111827"
-            fontFamily="'Cairo', 'Amiri', system-ui, sans-serif"
+            fontFamily="'Cairo', 'Amiri', Arial, sans-serif"
           >
             <textPath
               href={`#ar-top-arc-${uniqueId}`}
@@ -137,156 +142,108 @@ export const BranchLogo: React.FC<BranchLogoProps> = ({
             </textPath>
           </text>
 
-          {/* CENTER EMBLEM GRAPHICS */}
-          <g transform="translate(200, 200)">
+          {/* Bottom Kurdish Text */}
+          <text
+            fontSize="18"
+            fontWeight="bold"
+            fill="#111827"
+            fontFamily="Arial, sans-serif"
+          >
+            <textPath
+              href={`#ku-bot-arc-${uniqueId}`}
+              startOffset="50%"
+              textAnchor="middle"
+            >
+              {curr.kuText}
+            </textPath>
+          </text>
+
+          {/* Bottom Arabic Text */}
+          <text
+            fontSize="21"
+            fontWeight="bold"
+            fill="#111827"
+            fontFamily="'Cairo', 'Amiri', Arial, sans-serif"
+          >
+            <textPath
+              href={`#ar-bot-arc-${uniqueId}`}
+              startOffset="50%"
+              textAnchor="middle"
+            >
+              {curr.arText}
+            </textPath>
+          </text>
+
+          {/* CENTER EMBLEM */}
+          <g transform="translate(250, 240) scale(1.05)">
             
-            {/* Golden Drafting Compass (top) */}
-            {/* Compass top hinge & knob */}
-            <circle cx="0" cy="-100" r="8" fill="#B48318" stroke="#7A5308" strokeWidth="2" />
-            <circle cx="0" cy="-100" r="4" fill="#FFFFFF" />
-            <circle cx="0" cy="-115" r="4.5" fill="#B48318" stroke="#7A5308" strokeWidth="1.5" />
-            <line x1="0" y1="-108" x2="0" y2="-115" stroke="#B48318" strokeWidth="3" />
+            {/* Drafting Compass */}
+            <circle cx="0" cy="-85" r="6" fill="#D97706" />
+            <circle cx="0" cy="-85" r="2.5" fill="#FFFFFF" />
+            <line x1="0" y1="-79" x2="-16" y2="-10" stroke="#D97706" strokeWidth="3.5" strokeLinecap="round" />
+            <line x1="0" y1="-79" x2="16" y2="-10" stroke="#D97706" strokeWidth="3.5" strokeLinecap="round" />
+            <line x1="-16" y1="-10" x2="-18" y2="-3" stroke="#374151" strokeWidth="2" />
+            <line x1="16" y1="-10" x2="18" y2="-3" stroke="#374151" strokeWidth="2" />
+            <path d="M -12,-45 Q 0,-40 12,-45" fill="none" stroke="#D97706" strokeWidth="2.5" />
 
-            {/* Compass legs extending downward */}
-            <line x1="-4" y1="-93" x2="-22" y2="-5" stroke="#B48318" strokeWidth="4.5" strokeLinecap="round" />
-            <line x1="4" y1="-93" x2="16" y2="-5" stroke="#B48318" strokeWidth="4.5" strokeLinecap="round" />
-            
-            {/* Sharp needle tips */}
-            <line x1="-22" y1="-5" x2="-24" y2="4" stroke="#4B5563" strokeWidth="2.5" />
-            <line x1="16" y1="-5" x2="18" y2="4" stroke="#4B5563" strokeWidth="2.5" />
+            {/* T-Square / Drafting Ruler */}
+            <path d="M -38,-52 L -28,-64 Q -24,-45 -24,-32 Q -28,-20 -38,-32 Z" fill="#16A34A" />
+            <rect x="-36" y="-48" width="72" height="7" rx="1" fill="#9CA3AF" stroke="#4B5563" strokeWidth="1" />
 
-            {/* Compass adjustment arc / wing */}
+            {/* House / Building Outline */}
             <path
-              d="M -18,-50 Q 0,-44 18,-50"
-              fill="none"
-              stroke="#B48318"
-              strokeWidth="3"
+              d="M -80,22 L -62,8 L -14,28 L 0,-12 L 14,28 L 52,4 L 80,36 L 60,36 L 14,18 L -14,18 L -54,4 Z"
+              fill="#C026D3"
             />
-            <circle cx="0" cy="-47" r="3" fill="#7A5308" />
+            <rect x="-3" y="-8" width="6" height="10" fill="#C026D3" />
 
-            {/* Drafting Scale / Green T-Square Head */}
-            <path
-              d="M -50,-62 L -38,-78 Q -32,-50 -32,-35 Q -38,-22 -50,-38 Z"
-              fill="#10984E"
-              stroke="#075E30"
-              strokeWidth="1.5"
-            />
-            {/* Horizontal T-Square Blade */}
-            <rect
-              x="-48"
-              y="-58"
-              width="100"
-              height="10"
-              rx="1.5"
-              fill="#A0AEC0"
-              stroke="#4A5568"
-              strokeWidth="1.5"
-            />
-
-            {/* Magenta Architectural Pitched Roof Structure */}
-            <path
-              d="M -110,35 L -85,15 L -20,40 L 0,-15 L 20,40 L 70,5 L 110,50 L 80,50 L 20,25 L -20,25 L -75,6 Z"
-              fill="#A21CAF"
-              stroke="#701A75"
-              strokeWidth="1"
-            />
-            
-            {/* Chimney / Accent pin */}
-            <rect x="-5" y="-12" width="7" height="15" rx="1" fill="#A21CAF" />
-            <circle cx="-1.5" cy="-14" r="4" fill="#A21CAF" />
-
-            {/* House facade lines and windows below roof */}
-            <path
-              d="M -90,32 L -90,56 L -20,56 L -20,38"
-              fill="#FFFFFF"
-              stroke="#A21CAF"
-              strokeWidth="1.5"
-            />
-            {/* Left 4-pane window */}
-            <g transform="translate(-62, 38)">
-              <rect x="-6" y="-6" width="5" height="5" fill="#A0AEC0" />
-              <rect x="1" y="-6" width="5" height="5" fill="#A0AEC0" />
-              <rect x="-6" y="1" width="5" height="5" fill="#A0AEC0" />
-              <rect x="1" y="1" width="5" height="5" fill="#A0AEC0" />
+            {/* House Windows */}
+            <path d="M -66,24 L -66,42 L -14,42 L -14,24 Z" fill="#FFFFFF" stroke="#C026D3" strokeWidth="1" />
+            <g transform="translate(-44, 30)">
+              <rect x="-4" y="-4" width="3" height="3" fill="#9CA3AF" />
+              <rect x="1" y="-4" width="3" height="3" fill="#9CA3AF" />
+              <rect x="-4" y="1" width="3" height="3" fill="#9CA3AF" />
+              <rect x="1" y="1" width="3" height="3" fill="#9CA3AF" />
             </g>
 
-            <path
-              d="M 20,38 L 20,56 L 90,56 L 90,32"
-              fill="#FFFFFF"
-              stroke="#A21CAF"
-              strokeWidth="1.5"
-            />
-            {/* Right 4-pane window */}
-            <g transform="translate(48, 38)">
-              <rect x="-6" y="-6" width="5" height="5" fill="#A0AEC0" />
-              <rect x="1" y="-6" width="5" height="5" fill="#A0AEC0" />
-              <rect x="-6" y="1" width="5" height="5" fill="#A0AEC0" />
-              <rect x="1" y="1" width="5" height="5" fill="#A0AEC0" />
+            <path d="M 14,24 L 14,42 L 66,42 L 66,24 Z" fill="#FFFFFF" stroke="#C026D3" strokeWidth="1" />
+            <g transform="translate(40, 30)">
+              <rect x="-4" y="-4" width="3" height="3" fill="#9CA3AF" />
+              <rect x="1" y="-4" width="3" height="3" fill="#9CA3AF" />
+              <rect x="-4" y="1" width="3" height="3" fill="#9CA3AF" />
+              <rect x="1" y="1" width="3" height="3" fill="#9CA3AF" />
             </g>
 
-            {/* Green ground curved arc baseline */}
+            {/* Green Ground Line */}
             <path
-              d="M -110,65 Q 0,48 110,65"
+              d="M -75,48 Q 0,36 75,48"
               fill="none"
-              stroke="#15803D"
+              stroke="#16A34A"
               strokeWidth="2.5"
               strokeLinecap="round"
             />
 
-            {/* Center S.E.P.H Acronym in Bold Green */}
+            {/* S.E.P.H Text */}
             <text
               x="0"
-              y="92"
+              y="72"
               textAnchor="middle"
-              fontSize="24"
+              fontSize="20"
               fontWeight="900"
-              fontFamily="'Arial Black', Impact, sans-serif"
-              fill="#0E703C"
-              letterSpacing="2.5"
+              fontFamily="Arial Black, sans-serif"
+              fill="#15803D"
+              letterSpacing="2"
             >
               S.E.P.H
             </text>
           </g>
 
-          {/* LOWER SECTION DIVIDER RED ARC */}
-          <path
-            d="M 25,290 Q 200,312 375,290"
-            fill="none"
-            stroke="#D32F2F"
-            strokeWidth="3.5"
-          />
-
-          {/* Lower Kurdish Branch Inscription */}
-          <text
-            x="200"
-            y="320"
-            textAnchor="middle"
-            fontSize="17.5"
-            fontWeight="bold"
-            fontFamily="system-ui, -apple-system, sans-serif"
-            fill="#111827"
-          >
-            {curr.kuText}
-          </text>
-
-          {/* Lower Arabic Branch Inscription */}
-          <text
-            x="200"
-            y="355"
-            textAnchor="middle"
-            fontSize="21"
-            fontWeight="bold"
-            fontFamily="'Cairo', 'Amiri', system-ui, sans-serif"
-            fill="#111827"
-          >
-            {curr.arText}
-          </text>
         </svg>
       </div>
 
       {showText && (
         <div className="text-right">
-          <div className="text-xs font-bold text-white leading-tight">
+          <div className="text-xs font-bold leading-tight">
             {curr.nameAr}
           </div>
           <div className="text-[10px] font-mono text-[#00FFD1]">

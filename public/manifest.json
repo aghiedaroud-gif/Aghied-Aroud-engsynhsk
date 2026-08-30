@@ -1,0 +1,19 @@
+{
+  "name": "نظام المحاسبة المالي الموحد - نقابة المهندسين 2026",
+  "short_name": "محاسبة نقابة المهندسين",
+  "description": "منظومة الحسابات والتدقيق المالي النقابي الموحد لفرع الحسكة والقامشلي وديريك - دعم العمل دون اتصال",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F0F0F",
+  "theme_color": "#00FFD1",
+  "orientation": "any",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

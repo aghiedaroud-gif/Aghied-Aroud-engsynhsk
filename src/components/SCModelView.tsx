@@ -95,6 +95,20 @@ export const SCModelView: React.FC<SCModelViewProps> = ({
     setTotalArea(0);
     setBuiltArea(0);
     setFloorsCount(0);
+
+    // Reset engineer selections to defaults
+    setEngCiv('كاوا احمد صالح');
+    setEngArc('ذاكرة محمد ولو');
+    setEngMec('محمود سالم الابراهيم');
+    setEngEle('محمد بشير سمعو ملا احمد');
+    setEngWat('هيفي عابد احمد');
+
+    setCoachCiv('رزقو الياس ججو');
+    setCoachArc('لا يستوجب');
+    setCoachMec('محمود سالم الابراهيم');
+    setCoachEle('عبد الرحمن محمد ولو');
+    setCoachWat('عبد المناف بكر سليمان');
+
     setIssuedInvId(null);
     setIssuedEpoId(null);
     setIssuedSfdId(null);

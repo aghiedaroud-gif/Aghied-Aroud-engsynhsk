@@ -227,6 +227,29 @@ export const GSModelView: React.FC<GSModelViewProps> = ({
     setFloorsCount(0);
     setElevatorsCount(0);
     setElecCapacity(40);
+    
+    // Reset engineers selections to defaults
+    setStudyCiv('دلال محمد صالح فرحو');
+    setStudyArc('عبد الحليم صبري ابراهيم');
+    setStudyMec('محمود سالم الابراهيم');
+    setStudyEle('عادل عبد العزيز باشا');
+    setStudyWat('دلال محمد صالح فرحو');
+    setStudyGeo('هبون عدنان الاحمد');
+    setStudyGtc('هبون عدنان الاحمد');
+
+    setCoachCiv('هيفي عابد احمد');
+    setCoachArc('لا يستوجب');
+    setCoachMec('لا يستوجب');
+    setCoachEle('لا يستوجب');
+    setCoachWat('هيفي عابد احمد');
+    setCoachGeo('زياد طارق بوش');
+    setCoachGtc('زياد طارق بوش');
+
+    setAuditCiv('ابراهيم ممدوح حسن');
+    setAuditArc('سحاب عبد اللطيف خاير');
+    setAuditMec('ذاكرة محمد ولو');
+    setAuditEle('محمد بشير سمعو ملا احمد');
+
     setIsCalculated(false);
     setIssuedInvId(null);
     setIssuedEpoId(null);
